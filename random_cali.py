@@ -110,6 +110,20 @@ def setheading(dir):
     elif dir == "NW":
         turtle.setheading(150)
 
+def get_coord_lim():
+    turtle.penup()
+    coord_lim = []
+    turtle.goto(0, L_hexa)
+    for _ in range(6):
+        arrete = []
+        for _ in range(3):
+            arrete.append((math.floor(turtle.xcor() * 100) / 100, math.floor(turtle.ycor() * 100) / 100))
+            turtle.forward(L)
+        turtle.right(60)
+        coord_lim.append(arrete)
+    turtle.pendown()
+    return coord_lim
+
 def on_lim(pos, coord_lim):
     for arrete in coord_lim:
         if pos in arrete:
@@ -132,46 +146,66 @@ def random_move():
 def random_color():
     return random.choice(["#F7C5CC", "#A9D6E5", "#C9E4C5"])
     
+def random_cap():
+    return random.choice(["N", "NE", "SE", "S", "SW", "NW"])
 
-def safe_forward(distance):
-    pos = (math.floor(turtle.xcor() * 100) / 100, math.floor(turtle.ycor() * 100) / 100)
-    if on_lim(pos, coord_lim):
-        return False
-    turtle.forward(distance)
-
-def random_losange():
-    cap = ["N", "NE", "SE", "S", "SW", "NW"]
-    for _ in range(7):
-        tmp = random.choice(cap)
+def random_losange():    
+    for _ in range(5):
+        tmp = random_cap()
         setheading(tmp)
         print(tmp)
         draw_losange(random_color())
-
-def get_coord_lim():
-    turtle.penup()
-    coord_lim = []
-    turtle.goto(0, L_hexa)
-    for _ in range(6):
-        arrete = []
-        for _ in range(3):
-            arrete.append((math.floor(turtle.xcor() * 100) / 100, math.floor(turtle.ycor() * 100) / 100))
-            turtle.forward(L)
-        turtle.right(60)
-        coord_lim.append(arrete)
-    turtle.pendown()
-    return coord_lim
+        turtle.forward(L)
 
 def draw_losange(color):
     turtle.fillcolor(color)
     turtle.begin_fill()
     for _ in range(2):
-        # if not safe_forward(L): break
         turtle.forward(L)
         turtle.right(60)
-        # if not safe_forward(L): break
         turtle.forward(L)
         turtle.right(120)
     turtle.end_fill()
+
+def grille1():
+    turtle.goto(0,0)
+    turtle.setheading(30)
+    turtle.forward(L)
+    turtle.penup()
+    turtle.forward(L)
+    turtle.pendown()
+    turtle.forward(L)
+    turtle.penup()
+    turtle.backward(2 * L)
+    turtle.setheading(150)
+    turtle.forward(L)
+    turtle.pendown()
+    turtle.forward(L)
+    turtle.penup()
+    turtle.setheading(-90)
+    turtle.forward(2 * L)
+    turtle.pendown()
+    turtle.forward(L)
+    turtle.setheading(-150)
+    turtle.forward(L)
+    turtle.penup()
+    turtle.setheading(90)
+    turtle.forward(2 * L)
+    turtle.setheading(-30)
+    turtle.pendown()
+    turtle.forward(L)
+    turtle.penup()
+    turtle.forward(2 * L)
+    turtle.setheading(-90)
+    turtle.pendown()
+    turtle.forward(L)
+    turtle.penup()
+    turtle.backward(2 * L)
+    turtle.setheading(-30)
+    turtle.pendown()
+    turtle.forward(L)
+    turtle.penup()
+
 
 def close_window():
     turtle.bye()
@@ -195,7 +229,9 @@ if __name__ == "__main__":
     # print(coord_lim)
     
     # random_move()
-    random_losange()
+    # random_losange()
+
+    grille1()
 
     turtle.listen()
     turtle.onkey(close_window, "q")
