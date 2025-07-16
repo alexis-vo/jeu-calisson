@@ -22,7 +22,7 @@ def setup():
     turtle.speed(0)
     turtle.hideturtle()
     turtle.penup()
-    turtle.goto(L_hexa/2, L_hexa+100 / 2)
+    turtle.goto(0, L_hexa+100 / 2)
     turtle.pendown()
 
 def draw_hexa():
@@ -31,7 +31,7 @@ def draw_hexa():
         turtle.right(60)
     return
 
-def grid_hexa():
+def lines_grid_hexa():
     turtle.pencolor("lightgray")
 
     turtle.penup()
@@ -55,6 +55,38 @@ def grid_hexa():
 
     turtle.forward(600)
 
+    turtle.left(120)
+    turtle.penup()
+    turtle.forward(L)
+    turtle.left(60)
+    turtle.pendown()
+
+    turtle.forward(500)
+    turtle.right(120)
+    turtle.penup()
+    turtle.forward(L)
+    turtle.right(60)
+    turtle.pendown()
+    
+    turtle.forward(400)
+
+def grid_hexa():
+    lines_grid_hexa()
+    turtle.penup()
+    turtle.right(60)
+    turtle.forward(2 * L)
+    turtle.right(60)
+    turtle.forward(3 * L)
+    turtle.right(60)
+    turtle.pendown()
+    lines_grid_hexa()
+    turtle.penup()
+    turtle.right(60)
+    turtle.backward(L)
+    turtle.left(60)
+    turtle.backward(3 * L)
+    turtle.pendown()
+    lines_grid_hexa()
 
 def close_window():
     turtle.bye()
