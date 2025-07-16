@@ -22,7 +22,7 @@ def setup():
     turtle.speed(0)
     turtle.hideturtle()
     turtle.penup()
-    turtle.goto(0, L_hexa+100 / 2)
+    turtle.goto(0, L_hexa)
     turtle.pendown()
 
 def draw_hexa():
@@ -87,6 +87,13 @@ def grid_hexa():
     turtle.backward(3 * L)
     turtle.pendown()
     lines_grid_hexa()
+    turtle.penup()
+    turtle.right(60)
+    turtle.forward(2 * L)
+    turtle.right(60)
+    turtle.forward(3 * L)
+    turtle.right(60)
+    turtle.pendown()
 
 def close_window():
     turtle.bye()
@@ -94,9 +101,18 @@ def close_window():
 
 if __name__ == "__main__":
     setup()
+    
     turtle.right(30)
+    
     draw_hexa()
     grid_hexa()
+
+    turtle.pencolor("blue")
+
+    turtle.penup()
+    turtle.goto(0, 0)
+    turtle.pendown()
+    turtle.forward(L)
 
     turtle.listen()
     turtle.onkey(close_window, "q")
