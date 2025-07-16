@@ -1,5 +1,6 @@
 import turtle
 import random
+import math
 
 nb_cali_sur_longueur = 3
 L_hexa = 100 * nb_cali_sur_longueur
@@ -29,7 +30,7 @@ def setup():
     turtle.pencolor("black")
     turtle.pensize(2)
     turtle.speed(0)
-    turtle.hideturtle()
+    # turtle.hideturtle()
     turtle.penup()
     turtle.goto(0, L_hexa)
     turtle.pendown()
@@ -118,46 +119,40 @@ def setheading(dir):
     elif dir == "NW":
         turtle.setheading(150)
 
-def update_lim(direction):
-    if direction == "N":
-        lim["N"] += 1
-        lim["S"] -= 1
-    elif direction == "NE":
-        lim["NE"] += 1
-        lim["SW"] -= 1
-    elif direction == "SE":
-        lim["SE"] += 1
-        lim["NW"] -= 1
-    elif direction == "S":
-        lim["S"] += 1
-        lim["N"] -= 1
-    elif direction == "SW":
-        lim["SW"] += 1
-        lim["NE"] -= 1
-    elif direction == "NW":
-        lim["NW"] += 1
-        lim["SE"] -= 1
-
-def check_lim():
-    for key in lim:
-        if lim[key] >= 3:
-            return False
-    return True
-
+def on_lim(pos, coord_lim):
+    for arrete in coord_lim:
+        if pos in arrete:
+            print(True)
+            return True
+    print(False)
+    return False
+    
 def random_move():
     cap = ["N", "NE", "SE", "S", "SW", "NW"]
     while True:
         tmp = random.choice(cap)
         setheading(tmp)
         turtle.forward(L)
-        update_lim(tmp)
-        print(lim)
-        if not check_lim():
+        pos = (math.floor(turtle.xcor() * 100) / 100, math.floor(turtle.ycor() * 100) / 100)
+        print(pos, tmp)
+        if on_lim(pos, coord_lim):
             return
+
+def get_coord_lim():
+    coord_lim = []
+    turtle.goto(0, L_hexa)
+    for _ in range(6):
+        arrete = []
+        for _ in range(3):
+            arrete.append((math.floor(turtle.xcor() * 100) / 100, math.floor(turtle.ycor() * 100) / 100))
+            turtle.forward(L)
+        turtle.right(60)
+        coord_lim.append(arrete)
+    return coord_lim
+
 
 def close_window():
     turtle.bye()
-
 
 if __name__ == "__main__":
     setup()
@@ -170,10 +165,13 @@ if __name__ == "__main__":
     turtle.pencolor("blue")
 
     turtle.penup()
+    coord_lim = get_coord_lim()
     turtle.goto(0, 0)
     turtle.pendown()
 
-    # random_move()
+    print(coord_lim)
+    
+    random_move()
 
     turtle.listen()
     turtle.onkey(close_window, "q")
