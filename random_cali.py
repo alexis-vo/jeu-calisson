@@ -14,15 +14,6 @@ rules = {
     4: "arrêtes sur une ligne"
 }
 
-lim = {
-    "N": 0,
-    "NE": 0,
-    "SE": 0,
-    "S": 0,
-    "SW": 0,
-    "NW": 0
-}
-
 def setup():
     turtle.clearscreen()
     turtle.title("Pavage de calissons aléatoire")
@@ -138,7 +129,26 @@ def random_move():
         if on_lim(pos, coord_lim):
             return
 
+def random_color():
+    return random.choice(["#F7C5CC", "#A9D6E5", "#C9E4C5"])
+    
+
+def safe_forward(distance):
+    pos = (math.floor(turtle.xcor() * 100) / 100, math.floor(turtle.ycor() * 100) / 100)
+    if on_lim(pos, coord_lim):
+        return False
+    turtle.forward(distance)
+
+def random_losange():
+    cap = ["N", "NE", "SE", "S", "SW", "NW"]
+    for _ in range(7):
+        tmp = random.choice(cap)
+        setheading(tmp)
+        print(tmp)
+        draw_losange(random_color())
+
 def get_coord_lim():
+    turtle.penup()
     coord_lim = []
     turtle.goto(0, L_hexa)
     for _ in range(6):
@@ -148,8 +158,20 @@ def get_coord_lim():
             turtle.forward(L)
         turtle.right(60)
         coord_lim.append(arrete)
+    turtle.pendown()
     return coord_lim
 
+def draw_losange(color):
+    turtle.fillcolor(color)
+    turtle.begin_fill()
+    for _ in range(2):
+        # if not safe_forward(L): break
+        turtle.forward(L)
+        turtle.right(60)
+        # if not safe_forward(L): break
+        turtle.forward(L)
+        turtle.right(120)
+    turtle.end_fill()
 
 def close_window():
     turtle.bye()
@@ -162,16 +184,18 @@ if __name__ == "__main__":
     draw_hexa()
     grid_hexa()
 
-    turtle.pencolor("blue")
+    turtle.pencolor("black")
+
+    coord_lim = get_coord_lim()
 
     turtle.penup()
-    coord_lim = get_coord_lim()
     turtle.goto(0, 0)
     turtle.pendown()
 
-    print(coord_lim)
+    # print(coord_lim)
     
-    random_move()
+    # random_move()
+    random_losange()
 
     turtle.listen()
     turtle.onkey(close_window, "q")
